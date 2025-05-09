@@ -45,7 +45,17 @@ export const CartProvider = ({ children }) => {
 
   const updateCartCount = useCallback((newCount) => {
     localStorage.setItem('cartCount', newCount);
-    window.dispatchEvent(new Event('storage'));
+    
+  }, []);
+
+  const updateCountImmediately = useCallback((newCount) => {
+    setCartItems(prevItems => {
+      if (newCount < prevItems.length) {
+        return prevItems.slice(0, newCount);
+      }
+      return prevItems;
+    });
+    localStorage.setItem('cartCount', newCount);
   }, []);
 
   const addToCart = useCallback(async (item) => {
@@ -191,7 +201,9 @@ export const CartProvider = ({ children }) => {
     removeFromCart,
     updateQuantity,
     clearCart,
-  }), [cartItems, cartCount, cartTotal, loading, addToCart, removeFromCart, updateQuantity, clearCart]);
+    updateCartCount,
+    updateCountImmediately,
+  }), [cartItems, cartCount, cartTotal, loading, addToCart, removeFromCart, updateQuantity, clearCart, updateCartCount, updateCountImmediately]);
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
@@ -202,4 +214,6 @@ export const useCart = () => {
     throw new Error('useCart must be used within a CartProvider');
   }
   return context;
-}; 
+};
+
+export { CartContext }; 

@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { toast } from "sonner"
 import { useNavigate } from "react-router-dom"
 import { useCart } from '../hooks/useCart'
@@ -21,18 +21,11 @@ export default function Cart() {
   const navigate = useNavigate()
   const { updateCartCount, updateCountImmediately } = useCart()
 
-  useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('user'))
-    if (!user) {
-      toast.error('Vui lòng đăng nhập để xem giỏ hàng')
-      navigate('/login')
-      return
-    }
-    fetchCartItems(user.id)
-    fetchVouchers(user.id)
-  }, [navigate])
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount)
+  }
 
-  const fetchCartItems = async (userId) => {
+  const fetchCartItems = useCallback(async (userId) => {
     try {
       console.log('=== Fetching Cart Items ===')
       console.log('User ID:', userId)
@@ -47,7 +40,7 @@ export default function Cart() {
       const items = Array.isArray(data) ? data : data.cart || []
       console.log('Processed cart items:', items.map(item => ({
         id: item.id,
-        productId: item.productId, // Check if there's a separate productId
+        productId: item.productId,
         name: item.name,
         size: item.size,
         quantity: item.quantity
@@ -61,9 +54,9 @@ export default function Cart() {
       toast.error('Không thể tải giỏ hàng')
       setLoading(false)
     }
-  }
+  }, [])
 
-  const fetchVouchers = async (userId) => {
+  const fetchVouchers = useCallback(async (userId) => {
     try {
       const response = await fetch(`${API_URL}/vouchers`)
       if (!response.ok) {
@@ -73,27 +66,21 @@ export default function Cart() {
       console.log('All vouchers from API:', allVouchers)
       console.log('Current user ID:', userId)
       
-      // Lọc voucher dành riêng cho user
       const userSpecificVouchers = allVouchers.filter(voucher => {
         console.log('\nChecking voucher:', voucher.code)
         
-        // Kiểm tra voucher có userIds không
         if (voucher.userIds && voucher.userIds.length > 0) {
-          // Nếu có userIds, chỉ hiển thị cho user trong danh sách
           if (!voucher.userIds.includes(userId)) {
             console.log(`${voucher.code}: Filtered out - Not in userIds list`)
             return false
           }
         } else {
-          // Nếu không có userIds, hiển thị cho tất cả user
           console.log(`${voucher.code}: Available for all users`)
         }
         
-        // Kiểm tra voucher đã hết hạn chưa
         const currentDate = new Date()
         const endDate = new Date(voucher.endDate)
         
-        // Reset time part to compare only dates
         currentDate.setHours(0, 0, 0, 0)
         endDate.setHours(0, 0, 0, 0)
         
@@ -106,7 +93,6 @@ export default function Cart() {
           return false
         }
 
-        // Kiểm tra voucher đã được sử dụng bởi user này chưa
         if (voucher.usedBy && voucher.usedBy.includes(userId)) {
           console.log(`${voucher.code}: Filtered out - Already used by this user`)
           return false
@@ -123,9 +109,20 @@ export default function Cart() {
       console.error('Error fetching vouchers:', error)
       toast.error('Không thể tải danh sách voucher')
     }
-  }
+  }, [])
 
-  const handleUpdateQuantity = async (itemId, newQuantity) => {
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'))
+    if (!user) {
+      toast.error('Vui lòng đăng nhập để xem giỏ hàng')
+      navigate('/login')
+      return
+    }
+    fetchCartItems(user.id)
+    fetchVouchers(user.id)
+  }, [navigate, fetchCartItems, fetchVouchers])
+
+  const handleUpdateQuantity = useCallback(async (itemId, newQuantity) => {
     if (newQuantity < 1) return
 
     const user = JSON.parse(localStorage.getItem('user'))
@@ -152,16 +149,15 @@ export default function Cart() {
             item.id === itemId ? { ...item, quantity: newQuantity } : item
           )
         )
-        updateCartCount()
         toast.success('Cập nhật số lượng thành công')
       }
     } catch (error) {
       console.error('Error updating quantity:', error)
       toast.error('Không thể cập nhật số lượng')
     }
-  }
+  }, [navigate, updateCartCount])
 
-  const handleRemoveItem = async (itemId) => {
+  const handleRemoveItem = useCallback(async (itemId) => {
     const user = JSON.parse(localStorage.getItem('user'))
     if (!user) {
       toast.error('Vui lòng đăng nhập để xóa sản phẩm')
@@ -187,7 +183,7 @@ export default function Cart() {
       console.error('Error removing item:', error)
       toast.error('Không thể xóa sản phẩm')
     }
-  }
+  }, [navigate, updateCountImmediately])
 
   const handleSelectAll = (checked) => {
     if (checked) {
@@ -220,7 +216,7 @@ export default function Cart() {
 
   const shipping = selectedItems.length > 0 ? 30000 : 0
 
-  const handleApplyVoucher = async () => {
+  const handleApplyVoucher = useCallback(async () => {
     try {
       setVoucherError('')
       const user = JSON.parse(localStorage.getItem('user'))
@@ -229,7 +225,6 @@ export default function Cart() {
         return
       }
 
-      // First check if the voucher exists
       const response = await fetch(`${API_URL}/vouchers`)
       if (!response.ok) {
         throw new Error('Failed to check voucher')
@@ -244,14 +239,12 @@ export default function Cart() {
         return
       }
 
-      // Kiểm tra voucher có dành riêng cho user này không
       if (voucher.userId && voucher.userId !== user.id) {
         setVoucherError('Bạn không có quyền sử dụng voucher này')
         toast.error('Bạn không có quyền sử dụng voucher này')
         return
       }
 
-      // Check voucher expiration
       const currentDate = new Date()
       const startDate = new Date(voucher.startDate)
       const endDate = new Date(voucher.endDate)
@@ -268,8 +261,7 @@ export default function Cart() {
         return
       }
 
-      // Kiểm tra điều kiện đơn hàng tối thiểu
-      const orderTotal = subtotal + shipping; // Tổng tiền đơn hàng bao gồm phí ship
+      const orderTotal = subtotal + shipping;
       if (orderTotal < voucher.minOrder) {
         const remaining = voucher.minOrder - orderTotal;
         setVoucherError(`Đơn hàng tối thiểu ${formatCurrency(voucher.minOrder)} để áp dụng mã này. Bạn cần thêm ${formatCurrency(remaining)}`);
@@ -277,14 +269,12 @@ export default function Cart() {
         return;
       }
 
-      // Check if voucher has been used
       if (voucher.usedBy && voucher.usedBy.includes(user.id)) {
         setVoucherError('Bạn đã sử dụng mã giảm giá này')
         toast.error('Bạn đã sử dụng mã giảm giá này')
         return
       }
 
-      // If all checks pass, apply the voucher
       setAppliedVoucher(voucher)
       setVoucherError('')
       setDiscount(voucher.type === 'fixed' ? voucher.discount : (orderTotal * voucher.discount) / 100)
@@ -294,7 +284,7 @@ export default function Cart() {
       setVoucherError('Có lỗi xảy ra khi áp dụng mã giảm giá')
       toast.error('Có lỗi xảy ra khi áp dụng mã giảm giá')
     }
-  }
+  }, [voucherCode, subtotal, shipping, formatCurrency])
 
   const handleRemoveVoucher = () => {
     setAppliedVoucher(null)
@@ -322,16 +312,12 @@ export default function Cart() {
   const discount = calculateDiscount()
   const total = subtotal + shipping - discount
 
-  const formatCurrency = (amount) => {
-    return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount)
-  }
-
   const handleSelectVoucher = (voucher) => {
     setVoucherCode(voucher.code)
     setShowVoucherModal(false)
   }
 
-  const handleCheckout = async () => {
+  const handleCheckout = useCallback(async () => {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
       toast.error('Vui lòng đăng nhập để thanh toán');
@@ -366,8 +352,8 @@ export default function Cart() {
       userId: user.id,
       items: orderItems.map(item => ({
         ...item,
-        cartItemId: item.id,        // Giữ lại ID của item trong giỏ hàng
-        id: item.productId          // ID của sản phẩm
+        cartItemId: item.id,
+        id: item.productId
       })),
       total: total,
       voucher: appliedVoucher ? appliedVoucher.code : null,
@@ -387,7 +373,6 @@ export default function Cart() {
     })
 
     try {
-      // Chuyển đến trang thanh toán với thông tin đơn hàng
       navigate('/checkout', { 
         state: { 
           order: orderData,
@@ -401,7 +386,7 @@ export default function Cart() {
       console.error('Error creating order:', error);
       toast.error('Có lỗi khi đặt hàng, vui lòng thử lại!');
     }
-  };
+  }, [navigate, selectedItems, cartItems, total, appliedVoucher])
 
   if (loading) {
     return (
