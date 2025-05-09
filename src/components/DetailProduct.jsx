@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { FaStar, FaRegStar, FaUserCircle, FaArrowLeft, FaHeart, FaRegHeart } from 'react-icons/fa'; // Import icon mặc định
 import { useCart } from '../context/CartContext';
 import { toast } from 'sonner';
-import { useNotify } from '../context/notifyContext';
+import { useNotify } from '../context/NotifyContext';
 import ProductCard from './ProductCard'; // Make sure this path is correct
 import useComment from "../hooks/useComment"; // Import hook useComment
 
