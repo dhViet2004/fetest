@@ -5,7 +5,7 @@ import { toast } from 'react-hot-toast';
 import { useCart } from '../hooks/useCart';
 import { Modal, Form, Input, Select, Button, Checkbox } from 'antd';
 
-const API_URL = 'https://betest-s7wl.onrender.com/';
+const API_URL = 'https://betest-s7wl.onrender.com';
 const SHIPPING_METHODS = [
   { label: 'Giao hàng tiêu chuẩn', value: 'standard', fee: 30000, estimate: '3-5 ngày', icon: <FaTruck className="text-blue-500" /> },
   { label: 'Giao hàng nhanh', value: 'express', fee: 60000, estimate: '1-2 ngày', icon: <FaTruck className="text-green-500" /> },
