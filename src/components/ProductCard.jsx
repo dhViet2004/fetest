@@ -1,6 +1,6 @@
 import { FaStar, FaRegStar, FaShoppingCart, FaCreditCard, FaHeart } from 'react-icons/fa'; // Import thêm icon
 import { useNavigate } from 'react-router-dom'; // Sử dụng useNavigate thay vì history.push
-import { useNotify } from '../context/notifyContext';
+import { useNotify } from '../context/NotifyContext';
 import { useCart } from '../context/CartContext';
 import { useEffect, useState } from 'react';
 import { Button, Tooltip, message, Modal } from 'antd';
