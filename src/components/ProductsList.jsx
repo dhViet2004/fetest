@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { FaShoppingBag } from "react-icons/fa";
 import ProductCard from "./ProductCard";
 import axios from "axios";
@@ -8,6 +8,7 @@ const ProductsList = ({ data, itemsPerPage = 20 }) => {
   const [productsWithRating, setProductsWithRating] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Fetch comments và tính toán rating một lần khi component mount hoặc data thay đổi
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -48,11 +49,14 @@ const ProductsList = ({ data, itemsPerPage = 20 }) => {
     fetchComments();
   }, [data]);
 
-  // Tính toán phân trang
-  const indexOfLastProduct = currentPage * itemsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
-  const currentProducts = productsWithRating.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(productsWithRating.length / itemsPerPage);
+  // Sử dụng useMemo để tối ưu việc tính toán phân trang
+  const { currentProducts, totalPages } = useMemo(() => {
+    const indexOfLastProduct = currentPage * itemsPerPage;
+    const indexOfFirstProduct = indexOfLastProduct - itemsPerPage;
+    const currentProducts = productsWithRating.slice(indexOfFirstProduct, indexOfLastProduct);
+    const totalPages = Math.ceil(productsWithRating.length / itemsPerPage);
+    return { currentProducts, totalPages };
+  }, [currentPage, productsWithRating, itemsPerPage]);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 

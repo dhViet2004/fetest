@@ -160,27 +160,35 @@ const ProductFilter = ({ onFilterChange, onResetFilters }) => {
   };
 
   return (
-    <div className="p-4 bg-gray-100 rounded-lg shadow-md">
-      <h3 className="text-lg font-semibold mb-4">Bộ lọc sản phẩm</h3>
+    <div className="p-3 bg-white rounded-lg shadow-sm border border-gray-100">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-base font-medium text-gray-800">Bộ lọc</h3>
+        <button
+          onClick={onResetFilters}
+          className="text-sm text-blue-600 hover:text-blue-800"
+        >
+          Đặt lại
+        </button>
+      </div>
 
       {/* Lọc theo giá */}
-      <div className="mb-6">
-        <h4 className="text-md font-medium mb-2">Khoảng giá (nghìn VND)</h4>
-        <div className="space-y-4">
-          <div className="flex items-center space-x-4">
+      <div className="mb-4">
+        <h4 className="text-sm font-medium text-gray-700 mb-2">Khoảng giá (nghìn VND)</h4>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
             <input
               type="number"
-              className="w-20 p-2 border border-gray-300 rounded"
-              value={tempPriceRange[0] / 1000} // Hiển thị giá trị theo đơn vị nghìn
+              className="w-20 p-1.5 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+              value={tempPriceRange[0] / 1000}
               onChange={(e) => handlePriceChange(e, 0)}
               onKeyDown={(e) => handlePriceKeyDown(e, 0)}
               min="0"
             />
-            <span>-</span>
+            <span className="text-gray-500">-</span>
             <input
               type="number"
-              className="w-20 p-2 border border-gray-300 rounded"
-              value={tempPriceRange[1] / 1000} // Hiển thị giá trị theo đơn vị nghìn
+              className="w-20 p-1.5 text-sm border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+              value={tempPriceRange[1] / 1000}
               onChange={(e) => handlePriceChange(e, 1)}
               onKeyDown={(e) => handlePriceKeyDown(e, 1)}
               min="0"
@@ -188,7 +196,7 @@ const ProductFilter = ({ onFilterChange, onResetFilters }) => {
           </div>
           <div 
             ref={sliderRef}
-            className="relative h-2 bg-gray-200 rounded-full cursor-pointer"
+            className="relative h-1.5 bg-gray-100 rounded-full cursor-pointer"
             onMouseDown={(e) => {
               const value = calculateValueFromPosition(e.clientX);
               if (Math.abs(value - tempPriceRange[0]) < Math.abs(value - tempPriceRange[1])) {
@@ -206,7 +214,7 @@ const ProductFilter = ({ onFilterChange, onResetFilters }) => {
               }}
             />
             <div 
-              className="absolute h-4 w-4 bg-white border-2 border-blue-500 rounded-full top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing"
+              className="absolute h-3 w-3 bg-white border border-blue-500 rounded-full top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing shadow-sm"
               style={{
                 left: `${(tempPriceRange[0] / 1000) / 10}%`
               }}
@@ -216,7 +224,7 @@ const ProductFilter = ({ onFilterChange, onResetFilters }) => {
               }}
             />
             <div 
-              className="absolute h-4 w-4 bg-white border-2 border-blue-500 rounded-full top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing"
+              className="absolute h-3 w-3 bg-white border border-blue-500 rounded-full top-1/2 -translate-y-1/2 cursor-grab active:cursor-grabbing shadow-sm"
               style={{
                 left: `${(tempPriceRange[1] / 1000) / 10}%`
               }}
@@ -230,38 +238,38 @@ const ProductFilter = ({ onFilterChange, onResetFilters }) => {
       </div>
 
       {/* Lọc theo danh mục */}
-      <div className="mb-6">
-        <h4 className="text-md font-medium mb-2">Danh mục</h4>
-        <div className="flex flex-col space-y-2">
+      <div className="mb-4">
+        <h4 className="text-sm font-medium text-gray-700 mb-2">Danh mục</h4>
+        <div className="grid grid-cols-2 gap-2">
           {categories.map((category) => (
-            <label key={category}>
+            <label key={category} className="flex items-center text-sm text-gray-600 hover:text-gray-800 cursor-pointer">
               <input
                 type="checkbox"
                 value={category}
                 onChange={handleCategoryChange}
                 checked={tempCategories.includes(category)}
-                className="mr-2"
+                className="w-3.5 h-3.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
-              {category}
+              <span className="ml-2 truncate">{category}</span>
             </label>
           ))}
         </div>
       </div>
 
       {/* Lọc theo đánh giá */}
-      <div className="mb-6">
-        <h4 className="text-md font-medium mb-2">Đánh giá</h4>
-        <div className="flex flex-col space-y-2">
+      <div className="mb-4">
+        <h4 className="text-sm font-medium text-gray-700 mb-2">Đánh giá</h4>
+        <div className="flex flex-wrap gap-2">
           {[5, 4, 3, 2, 1].map((rating) => (
-            <label key={rating}>
+            <label key={rating} className="flex items-center text-sm text-gray-600 hover:text-gray-800 cursor-pointer">
               <input
                 type="checkbox"
                 value={rating}
                 onChange={handleRatingChange}
                 checked={tempRatings.includes(rating)}
-                className="mr-2"
+                className="w-3.5 h-3.5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
               />
-              {rating} sao
+              <span className="ml-1.5">{rating}★</span>
             </label>
           ))}
         </div>

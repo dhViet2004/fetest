@@ -136,14 +136,13 @@ export default function Cart() {
     }
 
     try {
-      const response = await fetch(`${API_URL}/cart/${itemId}`, {
+      const response = await fetch(`${API_URL}/cart/${itemId}?userId=${user.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-          quantity: newQuantity,
-          userId: user.id 
+          quantity: newQuantity
         }),
       })
 

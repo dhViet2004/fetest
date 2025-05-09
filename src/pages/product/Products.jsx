@@ -142,9 +142,9 @@ const Products = () => {
 
   return (
     <div className="mx-auto px-4 py-8">
-      <div className="flex">
-        {/* Thanh filter */}
-        <div className="w-1/5 pr-4">
+      <div className="flex flex-col lg:flex-row">
+        {/* Thanh filter - Chuyển lên trên khi mobile */}
+        <div className="w-full lg:w-1/5 mb-6 lg:mb-0 lg:pr-4">
           <ProductFilter
             onFilterChange={handleFilterChange}
             onResetFilters={handleResetFilters}
@@ -156,21 +156,22 @@ const Products = () => {
           <ProductsList
             data={currentProducts}
             itemsPerPage={itemsPerPage}
-            hasPurchasedProduct={hasPurchasedProduct} // Truyền hàm kiểm tra quyền
-            onAddToCart={handleAddToCart} // Truyền hàm thêm vào giỏ hàng
+            hasPurchasedProduct={hasPurchasedProduct}
+            onAddToCart={handleAddToCart}
           />
 
           {/* Phân trang */}
           {totalPages > 1 && (
             <div className="flex justify-center mt-6">
               <nav>
-                <ul className="flex space-x-2">
+                <ul className="flex flex-wrap justify-center gap-2">
                   <li>
                     <button
                       onClick={() => paginate(currentPage - 1)}
                       disabled={currentPage === 1}
-                      className={`px-4 py-2 bg-blue-500 text-white rounded-md disabled:opacity-50 ${currentPage === 1 ? "" : "cursor-pointer"}
-                        select-none`}
+                      className={`px-4 py-2 bg-blue-500 text-white rounded-md disabled:opacity-50 ${
+                        currentPage === 1 ? "" : "cursor-pointer"
+                      } select-none`}
                     >
                       &lt;
                     </button>
@@ -193,7 +194,9 @@ const Products = () => {
                     <button
                       onClick={() => paginate(currentPage + 1)}
                       disabled={currentPage === totalPages}
-                      className={`px-4 py-2 bg-blue-500 text-white rounded-md  disabled:opacity-50 ${currentPage < totalPages ? "cursor-pointer" : ""} select-none`}
+                      className={`px-4 py-2 bg-blue-500 text-white rounded-md disabled:opacity-50 ${
+                        currentPage < totalPages ? "cursor-pointer" : ""
+                      } select-none`}
                     >
                       &gt;
                     </button>

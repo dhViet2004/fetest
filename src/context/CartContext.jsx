@@ -133,7 +133,13 @@ export const CartProvider = ({ children }) => {
 
   const updateQuantity = useCallback(async (itemId, newQuantity) => {
     try {
-      const response = await fetch(`${API_URL}/cart/${itemId}`, {
+      const user = JSON.parse(localStorage.getItem('user'));
+      if (!user) {
+        toast.error('Vui lòng đăng nhập để cập nhật giỏ hàng');
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/cart/${itemId}?userId=${user.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quantity: newQuantity }),
