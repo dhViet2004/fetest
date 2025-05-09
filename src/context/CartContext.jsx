@@ -3,6 +3,8 @@ import { toast } from 'sonner';
 
 const CartContext = createContext();
 
+const API_URL = 'https://betest-s7wl.onrender.com';
+
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ export const CartProvider = ({ children }) => {
 
   const fetchCartItems = useCallback(async (userId) => {
     try {
-      const response = await fetch(`https://betest-s7wl.onrender.com/cart?userId=${userId}`);
+      const response = await fetch(`${API_URL}/cart?userId=${userId}`);
       if (!response.ok) throw new Error('Failed to fetch cart items');
       const data = await response.json();
       setCartItems(data);
@@ -65,7 +67,7 @@ export const CartProvider = ({ children }) => {
           return false;
         }
 
-        const response = await fetch(`https://betest-s7wl.onrender.com/cart/${existingItem.id}`, {
+        const response = await fetch(`${API_URL}/cart/${existingItem.id}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ quantity: newQuantity }),
@@ -84,7 +86,7 @@ export const CartProvider = ({ children }) => {
           toast.success('Cập nhật số lượng thành công!');
         }
       } else {
-        const response = await fetch('https://betest-s7wl.onrender.com/cart', {
+        const response = await fetch(`${API_URL}/cart`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ ...item, userId: user.id }),
@@ -111,7 +113,7 @@ export const CartProvider = ({ children }) => {
 
   const removeFromCart = useCallback(async (itemId) => {
     try {
-      const response = await fetch(`https://betest-s7wl.onrender.com/cart/${itemId}`, {
+      const response = await fetch(`${API_URL}/cart/${itemId}`, {
         method: 'DELETE',
       });
 
@@ -131,7 +133,7 @@ export const CartProvider = ({ children }) => {
 
   const updateQuantity = useCallback(async (itemId, newQuantity) => {
     try {
-      const response = await fetch(`https://betest-s7wl.onrender.com/cart/${itemId}`, {
+      const response = await fetch(`${API_URL}/cart/${itemId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quantity: newQuantity }),
@@ -159,7 +161,7 @@ export const CartProvider = ({ children }) => {
       const user = JSON.parse(localStorage.getItem('user'));
       if (!user) return;
 
-      const response = await fetch(`https://betest-s7wl.onrender.com/cart/clear?userId=${user.id}`, {
+      const response = await fetch(`${API_URL}/cart/clear?userId=${user.id}`, {
         method: 'DELETE',
       });
 

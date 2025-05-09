@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const API_URL = 'https://betest-s7wl.onrender.com/';
+const API_URL = 'https://betest-s7wl.onrender.com';
 
 export const useCart = () => {
   const [cartCount, setCartCount] = useState(0);
