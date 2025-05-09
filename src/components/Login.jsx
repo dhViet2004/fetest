@@ -16,7 +16,7 @@ const Login = () => {
     setError('');
 
     try {
-      const response = await fetch('https://betest-s7wl.onrender.com//users');
+      const response = await fetch('https://betest-s7wl.onrender.com/users');
       const users = await response.json();
       
       const user = users.find(

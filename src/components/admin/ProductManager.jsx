@@ -61,7 +61,7 @@ const ProductManager = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('https://betest-s7wl.onrender.com//products');
+      const response = await fetch('https://betest-s7wl.onrender.com/products');
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -76,7 +76,7 @@ const ProductManager = () => {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`https://betest-s7wl.onrender.com//products/${id}`, {
+      const response = await fetch(`https://betest-s7wl.onrender.com/products/${id}`, {
         method: 'DELETE',
       });
       
@@ -138,7 +138,7 @@ const ProductManager = () => {
 
       let response;
       if (editingProduct?.id) {
-        response = await fetch(`https://betest-s7wl.onrender.com//products/${editingProduct.id}`, {
+        response = await fetch(`https://betest-s7wl.onrender.com/products/${editingProduct.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -146,7 +146,7 @@ const ProductManager = () => {
           body: JSON.stringify(productPayload),
         });
       } else {
-        response = await fetch('https://betest-s7wl.onrender.com//products', {
+        response = await fetch('https://betest-s7wl.onrender.com/products', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

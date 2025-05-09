@@ -29,7 +29,7 @@ const DetailProduct = () => {
   useEffect(() => {
     const fetchProductDetails = async () => {
       try {
-        const response = await fetch(`https://betest-s7wl.onrender.com//products/${productId}`);
+        const response = await fetch(`https://betest-s7wl.onrender.com/products/${productId}`);
         if (!response.ok) {
           throw new Error('Product not found');
         }
@@ -48,7 +48,7 @@ const DetailProduct = () => {
     const fetchRelatedProducts = async () => {
       try {
         // Fetch 5 products excluding the current one
-        const response = await fetch(`https://betest-s7wl.onrender.com//products?_limit=6`);
+        const response = await fetch(`https://betest-s7wl.onrender.com/products?_limit=6`);
         const data = await response.json();
         setRelatedProducts(data.filter(p => p.id !== product.id));
       } catch (error) {
@@ -76,7 +76,7 @@ const DetailProduct = () => {
       }
 
       try {
-        const response = await fetch(`https://betest-s7wl.onrender.com//orders?userId=${user.id}`);
+        const response = await fetch(`https://betest-s7wl.onrender.com/orders?userId=${user.id}`);
         const orders = await response.json();
 
         // Kiểm tra xem user đã mua productId hay chưa
@@ -229,7 +229,7 @@ const DetailProduct = () => {
         };
 
         // Gửi đơn hàng lên server
-        const response = await fetch('https://betest-s7wl.onrender.com//orders', {
+        const response = await fetch('https://betest-s7wl.onrender.com/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderData)
@@ -238,13 +238,13 @@ const DetailProduct = () => {
         if (!response.ok) throw new Error('Đặt hàng thất bại');
 
         // Xóa sản phẩm khỏi giỏ hàng sau khi tạo đơn hàng thành công
-        const cartResponse = await fetch(`https://betest-s7wl.onrender.com//cart?userId=${user.id}`);
+        const cartResponse = await fetch(`https://betest-s7wl.onrender.com/cart?userId=${user.id}`);
         const cartData = await cartResponse.json();
         const cartItems = Array.isArray(cartData) ? cartData : cartData.cart || [];
         const cartItemToDelete = cartItems.find(item => item.productId === product.id && item.size === size);
         
         if (cartItemToDelete) {
-          await fetch(`https://betest-s7wl.onrender.com//cart/${cartItemToDelete.id}?userId=${user.id}`, {
+          await fetch(`https://betest-s7wl.onrender.com/cart/${cartItemToDelete.id}?userId=${user.id}`, {
             method: 'DELETE',
           });
         }
@@ -314,7 +314,7 @@ const DetailProduct = () => {
     }
 
     try {
-      const response = await fetch(`https://betest-s7wl.onrender.com//users/${user.id}`);
+      const response = await fetch(`https://betest-s7wl.onrender.com/users/${user.id}`);
       const userData = await response.json();
       
       let updatedFavorites = [...(userData.favorite || [])];
@@ -336,7 +336,7 @@ const DetailProduct = () => {
       }
 
       // Cập nhật danh sách yêu thích trên server
-      const updateResponse = await fetch(`https://betest-s7wl.onrender.com//users/${user.id}`, {
+      const updateResponse = await fetch(`https://betest-s7wl.onrender.com/users/${user.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

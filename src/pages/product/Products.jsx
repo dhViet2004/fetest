@@ -16,7 +16,7 @@ const Products = () => {
   useEffect(() => {
     // Fetch sản phẩm từ API
     const fetchProducts = async () => {
-      const response = await fetch("https://betest-s7wl.onrender.com//products");
+      const response = await fetch("https://betest-s7wl.onrender.com/products");
       const data = await response.json();
       setProducts(data);
       setFilteredProducts(data); // Khởi tạo danh sách sản phẩm đã lọc
@@ -26,7 +26,7 @@ const Products = () => {
     const fetchOrders = async () => {
       const user = JSON.parse(localStorage.getItem("user"));
       if (user) {
-        const response = await fetch(`https://betest-s7wl.onrender.com//orders?userId=${user.id}`);
+        const response = await fetch(`https://betest-s7wl.onrender.com/orders?userId=${user.id}`);
         const data = await response.json();
         setOrders(data);
       }

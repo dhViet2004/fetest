@@ -33,7 +33,7 @@ const OrderManagement = () => {
 
   const loadOrders = async () => {
     try {
-      const response = await fetch('https://betest-s7wl.onrender.com//orders');
+      const response = await fetch('https://betest-s7wl.onrender.com/orders');
       if (!response.ok) {
         throw new Error('Failed to fetch orders');
       }
@@ -120,7 +120,7 @@ const OrderManagement = () => {
       // If order has a voucher and payment is completed, update voucher usage
       if (order.voucher && order.payment?.status === 'completed') {
         try {
-          const voucherResponse = await fetch(`https://betest-s7wl.onrender.com//vouchers/${order.voucher.id}`, {
+          const voucherResponse = await fetch(`https://betest-s7wl.onrender.com/vouchers/${order.voucher.id}`, {
             method: 'PATCH',
             headers: {
               'Content-Type': 'application/json'
@@ -139,7 +139,7 @@ const OrderManagement = () => {
         }
       }
 
-      const response = await fetch(`https://betest-s7wl.onrender.com//orders/${orderId}`, {
+      const response = await fetch(`https://betest-s7wl.onrender.com/orders/${orderId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

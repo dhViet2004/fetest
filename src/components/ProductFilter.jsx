@@ -13,7 +13,7 @@ const ProductFilter = ({ onFilterChange, onResetFilters }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('https://betest-s7wl.onrender.com//products');
+        const response = await axios.get('https://betest-s7wl.onrender.com/products');
         const products = response.data;
         // Lấy danh sách categories không trùng lặp
         const uniqueCategories = [...new Set(products.map(product => product.category))];

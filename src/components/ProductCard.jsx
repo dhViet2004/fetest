@@ -38,7 +38,7 @@ const ProductCard = ({ product, onPayNow }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await axios.get(`https://betest-s7wl.onrender.com//comments?productId=${product.id}`);
+        const response = await axios.get(`https://betest-s7wl.onrender.com/comments?productId=${product.id}`);
         const comments = response.data;
         
         if (comments.length > 0) {
@@ -219,7 +219,7 @@ const ProductCard = ({ product, onPayNow }) => {
         };
 
         // Gửi đơn hàng lên server
-        const response = await fetch('https://betest-s7wl.onrender.com//orders', {
+        const response = await fetch('https://betest-s7wl.onrender.com/orders', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderData)
@@ -228,13 +228,13 @@ const ProductCard = ({ product, onPayNow }) => {
         if (!response.ok) throw new Error('Đặt hàng thất bại');
 
         // Xóa sản phẩm khỏi giỏ hàng sau khi tạo đơn hàng thành công
-        const cartResponse = await fetch(`https://betest-s7wl.onrender.com//cart?userId=${user.id}`);
+        const cartResponse = await fetch(`https://betest-s7wl.onrender.com/cart?userId=${user.id}`);
         const cartData = await cartResponse.json();
         const cartItems = Array.isArray(cartData) ? cartData : cartData.cart || [];
         const cartItemToDelete = cartItems.find(item => item.productId === product.id && item.size === selectedSize);
         
         if (cartItemToDelete) {
-          await fetch(`https://betest-s7wl.onrender.com//cart/${cartItemToDelete.id}?userId=${user.id}`, {
+          await fetch(`https://betest-s7wl.onrender.com/cart/${cartItemToDelete.id}?userId=${user.id}`, {
             method: 'DELETE',
           });
         }

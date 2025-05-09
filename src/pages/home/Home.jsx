@@ -13,7 +13,7 @@ const Home = () => {
   useEffect(() => {
     // Fetch sản phẩm từ API
     const fetchProducts = async () => {
-      const response = await fetch("https://betest-s7wl.onrender.com//products");
+      const response = await fetch("https://betest-s7wl.onrender.com/products");
       const data = await response.json();
       setProducts(data.slice(0, 8)); // Lấy 8 sản phẩm đầu tiên
     };

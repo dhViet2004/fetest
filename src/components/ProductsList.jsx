@@ -11,7 +11,7 @@ const ProductsList = ({ data, itemsPerPage = 20 }) => {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const response = await axios.get('https://betest-s7wl.onrender.com//comments');
+        const response = await axios.get('https://betest-s7wl.onrender.com/comments');
         const comments = response.data;
 
         // Tính toán rating và số lượng reviewer cho từng sản phẩm
