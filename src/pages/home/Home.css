@@ -1,0 +1,26 @@
+.transparent-modal .ant-modal-content {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.transparent-modal .ant-modal-close {
+  color: white !important;
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 50% !important;
+  width: 32px !important;
+  height: 32px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  top: 16px !important;
+  right: 16px !important;
+}
+
+.transparent-modal .ant-modal-close:hover {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+.transparent-modal .ant-modal-body {
+  padding: 0 !important;
+  background: transparent !important;
+} 
