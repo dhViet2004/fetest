@@ -37,7 +37,7 @@ const PromotionManagement = () => {
 
   const fetchVouchers = async () => {
     try {
-      const response = await fetch('http://localhost:3001/vouchers');
+      const response = await fetch('https://betest-s7wl.onrender.com//vouchers');
       if (response.ok) {
         const data = await response.json();
         setPromotions(data);
@@ -59,7 +59,7 @@ const PromotionManagement = () => {
 
       if (editingPromotion) {
         // Update existing voucher
-        const response = await fetch(`http://localhost:3001/vouchers/${editingPromotion.id}`, {
+        const response = await fetch(`https://betest-s7wl.onrender.com//vouchers/${editingPromotion.id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ const PromotionManagement = () => {
         }
       } else {
         // Create new voucher
-        const response = await fetch('http://localhost:3001/vouchers', {
+        const response = await fetch('https://betest-s7wl.onrender.com//vouchers', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ const PromotionManagement = () => {
       cancelText: 'No, cancel',
       onOk: async () => {
         try {
-          const response = await fetch(`http://localhost:3001/vouchers/${id}`, {
+          const response = await fetch(`https://betest-s7wl.onrender.com//vouchers/${id}`, {
             method: 'DELETE',
           });
           

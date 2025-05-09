@@ -7,7 +7,7 @@ const useComment = () => {
   // Fetch bình luận từ API
   const fetchComments = async (productId) => {
     try {
-      const response = await fetch(`http://localhost:3001/comments?productId=${productId}`);
+      const response = await fetch(`https://betest-s7wl.onrender.com//comments?productId=${productId}`);
       if (!response.ok) {
         throw new Error("Failed to fetch comments");
       }
@@ -35,7 +35,7 @@ const useComment = () => {
       };
 
       // Gửi bình luận lên API
-      const response = await fetch("http://localhost:3001/comments", {
+      const response = await fetch("https://betest-s7wl.onrender.com//comments", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

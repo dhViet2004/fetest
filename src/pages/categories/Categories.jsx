@@ -33,7 +33,7 @@ const Categories = () => {
     // Fetch dữ liệu sản phẩm từ API
     const fetchProducts = async () => {
       try {
-        const response = await fetch('http://localhost:3001/products');
+        const response = await fetch('https://betest-s7wl.onrender.com//products');
         const products = await response.json();
 
         // Lấy danh sách category không trùng lặp
@@ -87,7 +87,7 @@ const Categories = () => {
 
     try {
       // Fetch tất cả sản phẩm
-      const response = await fetch('http://localhost:3001/products');
+      const response = await fetch('https://betest-s7wl.onrender.com//products');
       const allProducts = await response.json();
       
       // Lọc sản phẩm theo category

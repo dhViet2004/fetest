@@ -8,7 +8,7 @@ const useProduct = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch('http://localhost:3001/products');
+      const response = await fetch('https://betest-s7wl.onrender.com//products');
       if (!response.ok) {
         throw new Error('Failed to fetch products');
       }
@@ -31,7 +31,7 @@ const useProduct = () => {
   useEffect(() => {
     const interval = setInterval(async () => {
       try {
-        const response = await fetch('http://localhost:3001/products');
+        const response = await fetch('https://betest-s7wl.onrender.com//products');
         if (!response.ok) {
           throw new Error('Failed to fetch products');
         }

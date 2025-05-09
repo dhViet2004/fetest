@@ -10,7 +10,7 @@ import { IoArrowBack } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'https://betest-s7wl.onrender.com/';
 
 const prizes = [
   { id: 1, name: 'Giảm 10K', value: 10000, probability: 0.2, color: '#FF5733', voucherCode: 'LUCKY10K' },

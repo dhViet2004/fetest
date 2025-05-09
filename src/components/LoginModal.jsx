@@ -33,7 +33,7 @@ const LoginModal = ({ onClose, onLogin }) => {
 
   const handleSignUp = async () => {
     try {
-      const checkResponse = await fetch(`http://localhost:3001/users?username=${signupData.username}`);
+      const checkResponse = await fetch(`https://betest-s7wl.onrender.com//users?username=${signupData.username}`);
       const existingUsers = await checkResponse.json();
 
       if (existingUsers.length > 0) {
@@ -45,7 +45,7 @@ const LoginModal = ({ onClose, onLogin }) => {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/users', {
+      const response = await fetch('https://betest-s7wl.onrender.com//users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(signupData),
@@ -84,7 +84,7 @@ const LoginModal = ({ onClose, onLogin }) => {
 
   const handleSignIn = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/users?username=${signinData.username}`);
+      const response = await fetch(`https://betest-s7wl.onrender.com//users?username=${signinData.username}`);
       const users = await response.json();
       
       // Kiểm tra chính xác username và password
@@ -177,7 +177,7 @@ const LoginModal = ({ onClose, onLogin }) => {
         const userInfo = await userInfoResponse.json();
         console.log('Google user info:', userInfo);
         
-        const checkResponse = await fetch(`http://localhost:3001/users?email=${userInfo.email}`);
+        const checkResponse = await fetch(`https://betest-s7wl.onrender.com//users?email=${userInfo.email}`);
         const existingUsers = await checkResponse.json();
         
         if (existingUsers.length > 0) {
@@ -189,7 +189,7 @@ const LoginModal = ({ onClose, onLogin }) => {
               google_id: userInfo.sub
             };
             
-            await fetch(`http://localhost:3001/users/${user.id}`, {
+            await fetch(`https://betest-s7wl.onrender.com//users/${user.id}`, {
               method: 'PUT',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(updatedUser),
@@ -245,7 +245,7 @@ const LoginModal = ({ onClose, onLogin }) => {
             phoneNumber: "Not provided"
           };
           
-          const createResponse = await fetch('http://localhost:3001/users', {
+          const createResponse = await fetch('https://betest-s7wl.onrender.com//users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newUser),
@@ -353,7 +353,7 @@ const LoginModal = ({ onClose, onLogin }) => {
     setForgotPasswordLoading(true);
     try {
       // Check if email exists in database
-      const response = await fetch(`http://localhost:3001/users?email=${forgotPasswordEmail}`);
+      const response = await fetch(`https://betest-s7wl.onrender.com//users?email=${forgotPasswordEmail}`);
       const users = await response.json();
 
       if (users.length === 0) {

@@ -138,8 +138,8 @@ const Admin = () => {
   const fetchData = useCallback(async () => {
     try {
       const [ordersResponse, usersResponse] = await Promise.all([
-        fetch('http://localhost:3001/orders'),
-        fetch('http://localhost:3001/users')
+        fetch('https://betest-s7wl.onrender.com//orders'),
+        fetch('https://betest-s7wl.onrender.com//users')
       ]);
 
       const ordersData = await ordersResponse.json();
@@ -266,7 +266,7 @@ const Admin = () => {
         ...values
       };
 
-      const response = await fetch(`http://localhost:3001/users/${editingUser.id}`, {
+      const response = await fetch(`https://betest-s7wl.onrender.com//users/${editingUser.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

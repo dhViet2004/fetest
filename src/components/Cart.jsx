@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useCart } from '../hooks/useCart'
 import { Modal } from 'antd'
 
-const API_URL = 'http://localhost:3001'
+const API_URL = 'https://betest-s7wl.onrender.com/'
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState([])

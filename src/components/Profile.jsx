@@ -56,7 +56,7 @@ const Profile = () => {
   useEffect(() => {
     if (user && user.role === 'user') {
       // Fetch orders
-      fetch(`http://localhost:3001/orders?userId=${user.id}`)
+      fetch(`https://betest-s7wl.onrender.com//orders?userId=${user.id}`)
         .then(response => response.json())
         .then(data => {
           // Sort orders by date (newest first)
@@ -99,7 +99,7 @@ const Profile = () => {
   useEffect(() => {
     if (user) {
       // Fetch vouchers
-      fetch(`http://localhost:3001/vouchers`)
+      fetch(`https://betest-s7wl.onrender.com//vouchers`)
         .then(response => response.json())
         .then(data => {
           // Filter vouchers for this user
@@ -174,7 +174,7 @@ const Profile = () => {
         birthday: values.birthday ? values.birthday.format('YYYY-MM-DD') : null
       };
 
-      const response = await fetch(`http://localhost:3001/users/${user.id}`, {
+      const response = await fetch(`https://betest-s7wl.onrender.com//users/${user.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -473,7 +473,7 @@ const Profile = () => {
           
           // Update in db.json via JsonServer
           try {
-            const response = await fetch(`http://localhost:3001/users/${user.id}`, {
+            const response = await fetch(`https://betest-s7wl.onrender.com//users/${user.id}`, {
               method: 'PUT',
               headers: {
                 'Content-Type': 'application/json',
