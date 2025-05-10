@@ -7,7 +7,8 @@ const Favourite = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Lấy thông tin người dùng từ localStorage
+    //
+    // Lấy thông tin người dùng từ localStorage 
     const user = JSON.parse(localStorage.getItem('user'));
     if (user && user.favorite) {
       // Lọc ra các sản phẩm có đầy đủ thông tin (không phải chỉ là ID)
