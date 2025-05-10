@@ -10,7 +10,7 @@ import { IoArrowBack } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const API_URL = 'https://betest-s7wl.onrender.com/';
+const API_URL = 'https://betest-s7wl.onrender.com';
 
 const prizes = [
   { id: 1, name: 'Giảm 10K', value: 10000, probability: 0.2, color: '#FF5733', voucherCode: 'LUCKY10K' },
@@ -197,44 +197,57 @@ const Random = () => {
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[24px] border-r-[24px] border-t-[48px] border-l-transparent border-r-transparent border-t-yellow-400 drop-shadow-lg"></div>
       </div>
       {result && (
-        <div className="mt-8 text-4xl font-extrabold text-green-700 drop-shadow-lg animate-bounce bg-yellow-200 px-6 py-3 rounded-xl border-4 border-yellow-500">
-          🎉
-          {result.name === "Tiếc quá" ? (
-            <span className="text-red-500 block mt-3 text-2xl">
-              Hẹn gặp lại lần sau!
-            </span>
-          ) : (
-            "Bạn nhận được: " + result.name
-          )}
+        <div className="mt-8 text-4xl font-extrabold text-green-700 drop-shadow-lg animate-bounce bg-gradient-to-r from-yellow-200 to-yellow-100 px-8 py-4 rounded-xl border-4 border-yellow-500 prize-result relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-200 opacity-50"></div>
+          <div className="relative z-10">
+            🎉
+            {result.name === "Tiếc quá" ? (
+              <span className="text-red-500 block mt-3 text-2xl">
+                Hẹn gặp lại lần sau!
+              </span>
+            ) : (
+              <div className="flex flex-col items-center">
+                <span className="text-2xl text-gray-700">Chúc mừng!</span>
+                <span className="text-3xl text-green-600 mt-2">Bạn nhận được: {result.name}</span>
+              </div>
+            )}
+          </div>
         </div>
       )}
       <button
         onClick={spinWheel}
-        className={`mt-10 px-12 py-5 font-extrabold text-3xl rounded-full shadow-lg transform transition-all duration-300 ${
+        className={`mt-10 px-12 py-5 font-extrabold text-3xl rounded-full shadow-lg transform transition-all duration-300 relative overflow-hidden ${
           hasSpun
             ? "bg-gray-400 cursor-not-allowed"
-            : "bg-gradient-to-r from-pink-500 to-red-500 text-white hover:scale-125"
+            : "bg-gradient-to-r from-pink-500 to-red-500 text-white hover:scale-110 hover:shadow-xl"
         }`}
         disabled={hasSpun}
       >
-        🎡 Quay ngay!
+        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-red-500 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+        <span className="relative z-10 flex items-center gap-2">
+          🎡 Quay ngay!
+        </span>
       </button>
     </div>
   );
 
   return (
     <div className="fixed bottom-5 left-6 z-50">
-      <Tooltip title="Vòng quay may mắn">
-        <Button
-          type="primary"
-          shape="circle"
-          size="large"
-          icon={<FaGift className="text-3xl" />}
-          className="bg-red-500 hover:bg-red-600 shadow-lg transition-all duration-300 hover:scale-110 w-24 h-24"
-          aria-label="Open Lucky Wheel"
-          onClick={() => setIsModalOpen(true)}
-        />
-      </Tooltip>
+      <div className="relative">
+        <Tooltip title="Vòng quay may mắn" placement="right">
+          <Button
+            type="primary"
+            shape="circle"
+            size="large"
+            icon={<FaGift className="text-2xl" />}
+            className="bg-white hover:bg-gray-50 border-2 border-red-500 text-red-500 hover:text-red-600 hover:border-red-600 shadow-lg transition-all duration-300 hover:scale-105 w-16 h-16"
+            aria-label="Open Lucky Wheel"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full animate-ping opacity-75"></div>
+          </Button>
+        </Tooltip>
+      </div>
       <Modal
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
@@ -246,15 +259,18 @@ const Random = () => {
           body: {
             padding: 0,
             background: 'linear-gradient(135deg, #222 60%, #ffe600 100%)',
-            borderRadius: 24
+            borderRadius: 24,
+            animation: 'modalFadeIn 0.5s ease-out'
           },
           mask: {
-            background: 'rgba(0,0,0,0.5)'
+            background: 'rgba(0,0,0,0.7)',
+            backdropFilter: 'blur(5px)'
           }
         }}
         className="lucky-wheel-modal"
       >
-        <div className="p-10 flex flex-col items-center justify-center">
+        <div className="p-10 flex flex-col items-center justify-center relative overflow-hidden">
+          <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjIxLTEuNzktNC00LTRzLTQgMS43OS00IDQgMS43OSA0IDQgNCA0LTEuNzkgNC00eiIvPjwvZz48L2c+PC9zdmc+')] opacity-20"></div>
           <div
             className="absolute top-4 left-6 flex items-center gap-2 text-white text-lg font-semibold cursor-pointer hover:scale-110 transition-transform"
             onClick={() => setIsModalOpen(false)}
@@ -262,8 +278,9 @@ const Random = () => {
             <IoArrowBack className="text-4xl" />
             <span className="text-2xl">Trở về</span>
           </div>
-          <h1 className="text-6xl font-extrabold text-white mb-12 drop-shadow-lg animate-pulse">
-            Vòng quay may mắn 🎉
+          <h1 className="text-6xl font-extrabold text-white mb-12 drop-shadow-lg animate-pulse relative">
+            <span className="relative z-10">Vòng quay may mắn 🎉</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-red-500 blur-xl opacity-50"></div>
           </h1>
           {renderWheel()}
         </div>
@@ -272,10 +289,71 @@ const Random = () => {
         .lucky-wheel-modal .ant-modal-content {
           border-radius: 24px;
           box-shadow: 0 8px 40px rgba(0,0,0,0.25);
+          animation: modalSlideIn 0.5s ease-out;
         }
         .lucky-wheel-modal .ant-modal-close {
           top: 24px;
           right: 24px;
+          transition: transform 0.3s ease;
+        }
+        .lucky-wheel-modal .ant-modal-close:hover {
+          transform: rotate(90deg);
+        }
+        @keyframes modalSlideIn {
+          from {
+            transform: translateY(-50px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        @keyframes modalFadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        .prize-result {
+          animation: prizePop 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        @keyframes prizePop {
+          0% {
+            transform: scale(0.5);
+            opacity: 0;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        @keyframes float {
+          0% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
+          100% {
+            transform: translateY(0px);
+          }
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+        @keyframes subtle-float {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-5px);
+          }
+        }
+        .animate-subtle-float {
+          animation: subtle-float 3s ease-in-out infinite;
         }
       `}</style>
     </div>
